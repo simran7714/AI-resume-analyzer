@@ -33,17 +33,18 @@ export const HeroSection: React.FC<Props> = ({
       {/* LightPillar WebGL Effect */}
       <div className="absolute inset-0 pointer-events-none -z-10 opacity-30 dark:opacity-50">
         <LightPillar
-          topColor="#10B981"
-          bottomColor="#0EA5E9"
-          intensity={1.0}
+          topColor="#84CC16"
+          bottomColor="#FF9FFC"
+          intensity={1}
           rotationSpeed={0.3}
-          glowAmount={0.005}
-          pillarWidth={3.0}
+          glowAmount={0.002}
+          pillarWidth={3}
           pillarHeight={0.4}
           noiseIntensity={0.5}
-          pillarRotation={0}
+          pillarRotation={25}
           interactive={false}
           mixBlendMode="screen"
+          quality="high"
         />
       </div>
 
