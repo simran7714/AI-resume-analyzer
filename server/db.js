@@ -4,9 +4,13 @@ const path = require('path');
 const DATA_DIR = path.join(__dirname, 'data');
 const DB_FILE = path.join(DATA_DIR, 'db.json');
 
-// Ensure data directory exists
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+// Ensure data directory exists safely (prevent crashes in serverless/read-only environments)
+try {
+  if (!fs.existsSync(DATA_DIR)) {
+    fs.mkdirSync(DATA_DIR, { recursive: true });
+  }
+} catch (err) {
+  console.warn('Data directory creation skipped in read-only environment:', err.message);
 }
 
 // Initial Seed Data
@@ -568,24 +572,35 @@ const initialData = {
   ]
 };
 
-// Initialize file if not existing
+let inMemoryDB = null;
+
 function getDB() {
-  if (!fs.existsSync(DB_FILE)) {
-    saveDB(initialData);
-    return initialData;
-  }
+  if (inMemoryDB) return inMemoryDB;
+
   try {
-    const data = fs.readFileSync(DB_FILE, 'utf8');
-    return JSON.parse(data);
+    if (fs.existsSync(DB_FILE)) {
+      const data = fs.readFileSync(DB_FILE, 'utf8');
+      inMemoryDB = JSON.parse(data);
+      return inMemoryDB;
+    }
   } catch (err) {
-    console.error('Error reading DB, re-initializing:', err);
-    saveDB(initialData);
-    return initialData;
+    console.warn('Error reading DB file, using initial seed:', err.message);
   }
+
+  inMemoryDB = JSON.parse(JSON.stringify(initialData));
+  return inMemoryDB;
 }
 
 function saveDB(data) {
-  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+  inMemoryDB = data;
+  try {
+    if (!fs.existsSync(DATA_DIR)) {
+      fs.mkdirSync(DATA_DIR, { recursive: true });
+    }
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
+  } catch (err) {
+    console.warn('File write skipped (Serverless environment active):', err.message);
+  }
 }
 
 module.exports = {
