@@ -32,6 +32,7 @@ interface AppContextType {
   toasts: Toast[];
   addToast: (message: string, type?: 'success' | 'error' | 'info') => void;
   removeToast: (id: string) => void;
+  addJob: (newJob: JobDescription) => void;
   refreshData: () => Promise<void>;
   updateCandidateState: (updated: Candidate) => void;
 }
@@ -114,6 +115,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     refreshData();
   }, [selectedJobId]);
 
+  const addJob = (newJob: JobDescription) => {
+    setJobs(prev => {
+      const exists = prev.some(j => j.id === newJob.id);
+      if (exists) {
+        return prev.map(j => j.id === newJob.id ? newJob : j);
+      }
+      return [newJob, ...prev];
+    });
+  };
+
   const updateCandidateState = (updated: Candidate) => {
     setCandidates(prev => prev.map(c => c.id === updated.id ? updated : c));
     if (selectedCandidate?.id === updated.id) setSelectedCandidate(updated);
@@ -147,6 +158,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         toasts,
         addToast,
         removeToast,
+        addJob,
         refreshData,
         updateCandidateState
       }}
