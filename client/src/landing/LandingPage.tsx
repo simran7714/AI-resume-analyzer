@@ -28,7 +28,7 @@ export const LandingPage: React.FC<Props> = ({ onLaunchDashboard }) => {
   const [showAnalyzeModal, setShowAnalyzeModal] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-200">
+    <div className="min-h-screen bg-animated-light dark:bg-[#0F172A] text-slate-900 dark:text-slate-100 font-sans selection:bg-emerald-500 selection:text-white transition-colors duration-200">
       
       {/* Sticky Glass Navbar */}
       <LandingNavbar
