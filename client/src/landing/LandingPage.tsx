@@ -14,7 +14,7 @@ import { LandingFooter } from './components/Footer';
 import { AuthModal } from './components/AuthModal';
 import { DemoVideoModal } from './components/DemoVideoModal';
 import { ResumeUploader } from '../components/ResumeUploader';
-import CurvedLoop from '../components/CurvedLoop';
+import ScrollVelocity from '../components/ScrollVelocity';
 import { X, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -45,17 +45,21 @@ export const LandingPage: React.FC<Props> = ({ onLaunchDashboard }) => {
         onWatchVideo={() => setShowVideoModal(true)}
       />
 
-      {/* CurvedLoop Marquee Strip */}
-      <div className="relative bg-gradient-to-r from-emerald-900/80 via-slate-900 to-blue-900/80 border-y border-emerald-500/20 overflow-hidden py-0">
-        <CurvedLoop
-          marqueeText="AI Resume Screening • ATS Score Analysis • Skill Gap Detection • Job Match • Gemini AI • Smart Hiring • "
-          speed={55}
-          fontSize={1.8}
-          curveDirection="up"
-          curveAmount={18}
-          gap={60}
-          color="#10B981"
-          className="!min-h-0"
+      {/* Scroll Velocity Marquee Banner */}
+      <div className="scroll-velocity-banner py-6 bg-slate-950 border-y border-slate-800/80 overflow-hidden">
+        <ScrollVelocity
+          texts={[
+            'AI Resume Screening',
+            'ATS Score Analysis',
+            'Skill Gap Detection',
+            'Gemini AI Powered',
+            'Candidate Ranking',
+            'Job Match Score',
+          ]}
+          velocity={4}
+          className="text-transparent bg-clip-text"
+          damping={40}
+          clampMax={4}
         />
       </div>
 
