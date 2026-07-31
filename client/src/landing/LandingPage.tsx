@@ -14,6 +14,7 @@ import { LandingFooter } from './components/Footer';
 import { AuthModal } from './components/AuthModal';
 import { DemoVideoModal } from './components/DemoVideoModal';
 import { ResumeUploader } from '../components/ResumeUploader';
+import CurvedLoop from '../components/CurvedLoop';
 import { X, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -43,6 +44,20 @@ export const LandingPage: React.FC<Props> = ({ onLaunchDashboard }) => {
         onTryDemo={onLaunchDashboard}
         onWatchVideo={() => setShowVideoModal(true)}
       />
+
+      {/* CurvedLoop Marquee Strip */}
+      <div className="relative bg-gradient-to-r from-emerald-900/80 via-slate-900 to-blue-900/80 border-y border-emerald-500/20 overflow-hidden py-0">
+        <CurvedLoop
+          marqueeText="AI Resume Screening • ATS Score Analysis • Skill Gap Detection • Job Match • Gemini AI • Smart Hiring • "
+          speed={55}
+          fontSize={1.8}
+          curveDirection="up"
+          curveAmount={18}
+          gap={60}
+          color="#10B981"
+          className="!min-h-0"
+        />
+      </div>
 
       {/* Trusted By Logos Bar */}
       <TrustedBy />

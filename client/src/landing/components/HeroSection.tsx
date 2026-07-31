@@ -16,7 +16,6 @@ import {
   Check
 } from 'lucide-react';
 import LightPillar from '../../components/LightPillar';
-import { GSAPTypeWriter } from '../../components/GSAPTypeWriter';
 
 interface Props {
   onAnalyze: () => void;
@@ -73,20 +72,7 @@ export const HeroSection: React.FC<Props> = ({
             <h1 className="text-4xl sm:text-6xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
               Analyze Your Resume Like a{' '}
               <span className="bg-gradient-to-r from-emerald-500 via-teal-400 to-sky-500 bg-clip-text text-transparent">
-                <GSAPTypeWriter
-                  words={[
-                    'Professional Recruiter',
-                    'Top Employer',
-                    'Hiring Manager',
-                    'Fortune 500 HR',
-                    'ATS Algorithm',
-                    'Career Coach',
-                  ]}
-                  speed={55}
-                  pauseDuration={2000}
-                  cursor="|"
-                  loop
-                />
+                Professional Recruiter
               </span>
             </h1>
 
