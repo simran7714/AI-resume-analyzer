@@ -1,6 +1,34 @@
 {
   "jobs": [
     {
+      "id": "job-1785505713525",
+      "title": "SOFTWAREENGINEERING",
+      "department": "Engineering",
+      "location": "work from home ",
+      "type": "Full-time",
+      "salary": "$130,000 - $160,000",
+      "minExperience": 0,
+      "minEducation": "B Tech, M tech ",
+      "requiredSkills": [
+        "PYTHON",
+        "JAVA",
+        "DSA",
+        "CSS"
+      ],
+      "preferredSkills": [
+        "AWS",
+        "Docker",
+        "GraphQL",
+        "Redis"
+      ],
+      "requiredCertifications": [
+        "AWS Certified Associate"
+      ],
+      "description": "",
+      "status": "Active",
+      "createdAt": "2026-07-31T13:48:33.525Z"
+    },
+    {
       "id": "job-1785500115213",
       "title": "AI & Machine Learning Lead",
       "department": "AI Research",
@@ -163,6 +191,90 @@
     }
   ],
   "candidates": [
+    {
+      "id": "cand-1785505498320",
+      "jobId": "job-1785500115213",
+      "jobTitle": "AI & Machine Learning Lead",
+      "name": "MEHAK HARLAPUR",
+      "email": "mehakharlapur12@gmail.com",
+      "phone": "6360537283",
+      "location": "San Francisco, CA",
+      "linkedin": "linkedin.com/in/mehakharlapur",
+      "github": "",
+      "portfolio": "gmail.com",
+      "experienceYears": 6,
+      "education": "Master's Degree",
+      "skills": [
+        "React",
+        "JavaScript",
+        "Node.js",
+        "MongoDB",
+        "Python",
+        "NLP",
+        "HTML",
+        "CSS",
+        "Go"
+      ],
+      "certifications": [],
+      "rawText": "\n\nMEHAK HARLAPUR\n(+91)6360537283 \nBachelor of Engineering                                                                                                                                                         2022-2026\nTontadarya College of Engineering                                                                                                                                       CGPA:8.72\nHigher Secondary (12th)                                                                                                                                                         2020-2022\nSanmarg Pre-University                                                                                                                                                            85%\nSecondary (10th)                                                                                                                                                                      2020\nShri CDO Jain Eng Med School                                                                                                                                                89%\nwww.linkedin.com/in/mehakharlapur\n As a Computer Science student and aspiring web developer, I have gained practical experience in building full-stack web\napplications using React, Node.js, and MongoDB. Proficient in HTML, CSS, and C programming, with a strong interest in software\nengineering and creating clean, user-focused designs. Actively seeking opportunities to contribute, learn, and deliver innovative\nsolutions to a dynamic development team.\nPROFESSIONAL SUMMARY\nmehakharlapur12@gmail.com \nEDUCATION\nPROJECTS\n 1. Revolutionary Learning with AI-Powered Voice Assistance using NLP\nDeveloped an AI-based voice assistant learning platform using HTML, CSS, and JavaScript Integrated speech recognition APIs to\nenable interactive, dynamic voice-interaction features for answering student queries and delivering educational content Engineered\nan intuitive, hands-free user interface to facilitate on-the-go, interactive learning currently writing a Research Paper on this work.\n2. Mental Health Analyzer using NLP\nDeveloped a deep learning model using BERT Transformer to analyze user text(sentences) and classify mental health states such as\nanxiety, depression,Suicidal,strees, or normal. The system preprocesses user statements, applies transformer-based sentiment\nanalysis Achiving 90% acccuracy.\n3. cricket Auction Website, Bidding Platform with Team\nDeveloped a cricket auction platform leveraging HTML, CSS, and JavaScript for the frontend, enabling the listing and bidding of\n[number] players. Implemented player selection, team creation, and a basic bidding system, enabling streamlined user work ows and\nsupporting [number] selections per session. Focused on delivering a smooth and interactive user interface for team-building.\nSimulated real-time bidding experience with simple logic and user-friendly design.\nSKILLS\nTechnical skills \nProgramming Languages : Python,C,C++,JavaTeamwork\nWebtechnologies : html , css , javascript\nDatabases : MYSQL , MongoDB\nConcepts : Problem Solving and Algorithm Design,Machine Learning & Deep Learning, Object Detection NLP \nSOFT SKILLS \nTeamwork \nProblem-Solving\nAdaptability\nWork Ethic Creativity\nActive Listening\nData Structures and Algorithms  |  Infosys Springboard ( May 2024 - Aug2024)\nPython| AI Academia (Apr 2025 - June 2025)\nArtificial Integillence |AI ACademia (Apr 2025-June 2025)\nFrontend Software Engineering Job Simulation |Forage (May 2025 - Oct202) \nCERTIFICATES",
+      "scores": {
+        "atsScore": 55,
+        "grammarScore": 92,
+        "formattingScore": 90,
+        "skillMatchPct": 23,
+        "experienceMatchPct": 100,
+        "educationMatchPct": 50,
+        "certificationMatchPct": 40,
+        "keywordMatchPct": 54,
+        "projectRelevancePct": 62,
+        "overallCandidateScore": 58
+      },
+      "recommendation": {
+        "decision": "REJECT",
+        "title": "Not Suitable",
+        "color": "rose",
+        "summary": "Candidate does not meet criteria for AI & Machine Learning Lead due to low ATS score (55) and critical missing requirements.",
+        "rejectionReasons": [
+          "ATS Score (55/100) is below the minimum threshold of 70",
+          "Missing mandatory required skills: PyTorch, SQL, Scikit-Learn, Data Visualization",
+          "Education does not meet minimum requirement (Master's or Ph.D. in CS, Data Science, or Math)",
+          "Missing mandatory certifications: TensorFlow Developer Certificate"
+        ],
+        "strengths": [
+          "Matches key skills: python, nlp",
+          "Possesses 6 years of experience (meets/exceeds 4 years minimum)"
+        ],
+        "weaknesses": [
+          "Lacks required skills: PyTorch, SQL, Scikit-Learn, Data Visualization",
+          "Missing preferred skills: TensorFlow, LLMs, MLOps"
+        ],
+        "missingRequiredSkills": [
+          "PyTorch",
+          "SQL",
+          "Scikit-Learn",
+          "Data Visualization"
+        ],
+        "missingPreferredSkills": [
+          "TensorFlow",
+          "LLMs",
+          "MLOps",
+          "Docker",
+          "Spark",
+          "Kubernetes"
+        ],
+        "improvementSuggestions": [
+          "Acquire core proficiency in: PyTorch, SQL, Scikit-Learn, Data Visualization",
+          "Quantify project accomplishments using metrics (e.g., \"Increased performance by 35%\")"
+        ]
+      },
+      "voiceSummaryText": "MEHAK HARLAPUR scored 55 ATS score with a 23% skill match for AI & Machine Learning Lead. Decision is Not Suitable.",
+      "fraudWarning": null,
+      "duplicateDetected": false,
+      "recruiterNotes": [],
+      "status": "Rejected",
+      "interviewScheduled": null,
+      "createdAt": "2026-07-31T13:44:58.320Z"
+    },
     {
       "id": "cand-1785504074578",
       "jobId": "job-1785500115213",
@@ -883,6 +995,18 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1785505713533",
+      "action": "Created new Job Role: SOFTWAREENGINEERING",
+      "user": "Recruiter",
+      "timestamp": "2026-07-31T13:48:33.533Z"
+    },
+    {
+      "id": "log-1785505498325",
+      "action": "Uploaded & Screened Candidate Resume: MEHAK HARLAPUR (Not Suitable)",
+      "user": "Recruiter",
+      "timestamp": "2026-07-31T13:44:58.325Z"
+    },
     {
       "id": "log-1785504100656",
       "action": "Updated Candidate Status: PDF-. -> Rejected",

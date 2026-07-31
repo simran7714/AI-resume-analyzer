@@ -12,7 +12,7 @@ export const PricingSection: React.FC<Props> = ({ onSelectPlan }) => {
   const plans = [
     {
       name: 'Free',
-      price: '$0',
+      price: '₹0',
       period: 'Forever free',
       desc: 'Ideal for students and casual job seekers checking ATS baseline.',
       highlight: false,
@@ -27,7 +27,7 @@ export const PricingSection: React.FC<Props> = ({ onSelectPlan }) => {
     },
     {
       name: 'Pro',
-      price: annual ? '$15' : '$19',
+      price: annual ? '₹999' : '₹1,299',
       period: annual ? 'per month, billed annually' : 'per month',
       desc: 'Perfect for active job hunters aiming for top tech & corporate roles.',
       highlight: true,
@@ -46,7 +46,7 @@ export const PricingSection: React.FC<Props> = ({ onSelectPlan }) => {
     },
     {
       name: 'Enterprise Recruiter',
-      price: annual ? '$39' : '$49',
+      price: annual ? '₹2,999' : '₹3,499',
       period: annual ? 'per month, billed annually' : 'per month',
       desc: 'Designed for HR recruiters, talent leads, and hiring agencies.',
       highlight: false,
