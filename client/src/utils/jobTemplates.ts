@@ -1,0 +1,101 @@
+export interface JobTemplate {
+  id: string;
+  title: string;
+  department: string;
+  location: string;
+  type: string;
+  salary: string;
+  minExperience: number;
+  minEducation: string;
+  requiredSkills: string[];
+  preferredSkills: string[];
+  requiredCertifications: string[];
+  description: string;
+}
+
+export const PRESET_JOB_TEMPLATES: JobTemplate[] = [
+  {
+    id: 'tmpl-1',
+    title: 'Senior Full Stack Engineer',
+    department: 'Engineering',
+    location: 'San Francisco, CA (Hybrid)',
+    type: 'Full-time',
+    salary: '$140,000 - $175,000',
+    minExperience: 5,
+    minEducation: "Bachelor's in Computer Science or related",
+    requiredSkills: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'REST API', 'Git'],
+    preferredSkills: ['GraphQL', 'AWS', 'Docker', 'Tailwind CSS', 'Redis', 'CI/CD'],
+    requiredCertifications: ['AWS Certified Developer (Optional)', 'Meta Front-End Developer'],
+    description: 'We are seeking a high-performing Senior Full Stack Engineer to lead front-end architecture and backend services for our enterprise cloud platform.'
+  },
+  {
+    id: 'tmpl-2',
+    title: 'AI & Machine Learning Lead',
+    department: 'AI Research',
+    location: 'New York, NY (Remote)',
+    type: 'Full-time',
+    salary: '$165,000 - $200,000',
+    minExperience: 4,
+    minEducation: "Master's or Ph.D. in CS, Data Science, or Math",
+    requiredSkills: ['Python', 'PyTorch', 'SQL', 'Scikit-Learn', 'NLP', 'Data Visualization'],
+    preferredSkills: ['TensorFlow', 'LLMs', 'MLOps', 'Docker', 'Spark', 'Kubernetes'],
+    requiredCertifications: ['TensorFlow Developer Certificate'],
+    description: 'Lead state-of-the-art NLP and recommendation model development. Build scalable data pipelines and deploy LLM applications.'
+  },
+  {
+    id: 'tmpl-3',
+    title: 'Senior DevOps & Cloud Architect',
+    department: 'Infrastructure',
+    location: 'Austin, TX (On-site)',
+    type: 'Full-time',
+    salary: '$150,000 - $185,000',
+    minExperience: 6,
+    minEducation: "Bachelor's in IT, CS, or equivalent",
+    requiredSkills: ['AWS', 'Kubernetes', 'Docker', 'Terraform', 'CI/CD', 'Linux'],
+    preferredSkills: ['Prometheus', 'Grafana', 'Python', 'Ansible', 'Security Compliance'],
+    requiredCertifications: ['AWS Certified Solutions Architect Professional', 'CKA'],
+    description: 'Architect resilient multi-region infrastructure, automate deployment pipelines, and enforce zero-trust cloud security standards.'
+  },
+  {
+    id: 'tmpl-4',
+    title: 'Lead Product Designer (UI/UX)',
+    department: 'Design',
+    location: 'Remote (US/Canada)',
+    type: 'Full-time',
+    salary: '$130,000 - $160,000',
+    minExperience: 4,
+    minEducation: "Bachelor's in Design, HCI, or equivalent",
+    requiredSkills: ['Figma', 'UI/UX Design', 'Design Systems', 'User Research', 'Wireframing', 'Prototyping'],
+    preferredSkills: ['HTML/CSS', 'Framer', 'Usability Testing', 'Accessibility (WCAG)'],
+    requiredCertifications: ['Google UX Design Professional Certificate'],
+    description: 'Craft beautiful, accessible, human-centric design systems and modern web application user interfaces.'
+  },
+  {
+    id: 'tmpl-5',
+    title: 'Cybersecurity & Security Operations Lead',
+    department: 'InfoSec',
+    location: 'Washington, DC (Hybrid)',
+    type: 'Full-time',
+    salary: '$155,000 - $190,000',
+    minExperience: 5,
+    minEducation: "Bachelor's in Cybersecurity or IT",
+    requiredSkills: ['SIEM', 'Incident Response', 'Network Security', 'Penetration Testing', 'Python', 'Linux'],
+    preferredSkills: ['Wireshark', 'Splunk', 'Cloud Security', 'Compliance (SOC2/ISO27001)'],
+    requiredCertifications: ['CISSP', 'CEH (Certified Ethical Hacker)'],
+    description: 'Lead threat detection, security incident response, threat hunting, and infrastructure hardening across multi-cloud environments.'
+  },
+  {
+    id: 'tmpl-6',
+    title: 'Senior Technical Product Manager',
+    department: 'Product',
+    location: 'Seattle, WA (Hybrid)',
+    type: 'Full-time',
+    salary: '$145,000 - $180,000',
+    minExperience: 5,
+    minEducation: "Bachelor's Degree",
+    requiredSkills: ['Agile / Scrum', 'Product Strategy', 'Roadmapping', 'PRD Authoring', 'Data Analytics', 'SQL'],
+    preferredSkills: ['A/B Testing', 'Jira', 'Figma', 'Market Research', 'User Interviews'],
+    requiredCertifications: ['Certified Scrum Product Owner (CSPO)'],
+    description: 'Define product vision, author technical PRDs, collaborate with engineering leads, and manage sprint backlogs for core platform offerings.'
+  }
+];
