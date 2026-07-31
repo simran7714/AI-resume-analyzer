@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const JobDescriptionModal: React.FC<Props> = ({ jobToEdit, onClose }) => {
-  const { refreshData, addToast, addJob } = useApp();
+  const { refreshData, addToast } = useApp();
 
   const [title, setTitle] = useState(jobToEdit?.title || '');
   const [department, setDepartment] = useState(jobToEdit?.department || 'Engineering');
@@ -50,9 +50,7 @@ export const JobDescriptionModal: React.FC<Props> = ({ jobToEdit, onClose }) => 
 
     try {
       setIsSubmitting(true);
-      const newJobId = jobToEdit ? jobToEdit.id : `job-${Date.now()}`;
-      const jobData: JobDescription = {
-        id: newJobId,
+      const jobData = {
         title,
         department,
         location,
@@ -63,27 +61,22 @@ export const JobDescriptionModal: React.FC<Props> = ({ jobToEdit, onClose }) => 
         requiredSkills: reqSkills.split(',').map(s => s.trim()).filter(Boolean),
         preferredSkills: prefSkills.split(',').map(s => s.trim()).filter(Boolean),
         requiredCertifications: reqCerts.split(',').map(s => s.trim()).filter(Boolean),
-        description,
-        status: jobToEdit?.status || 'Active',
-        createdAt: jobToEdit?.createdAt || new Date().toISOString()
+        description
       };
 
-      try {
-        if (jobToEdit) {
-          await fetch(`/api/jobs/${jobToEdit.id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(jobData)
-          });
-        } else {
-          await api.createJob(jobData);
-        }
-      } catch (apiErr) {
-        console.warn('API save failed, updating client state fallback:', apiErr);
+      if (jobToEdit) {
+        await fetch(`/api/jobs/${jobToEdit.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(jobData)
+        });
+        addToast('Job description updated successfully', 'success');
+      } else {
+        await api.createJob(jobData);
+        addToast('New Job Description created', 'success');
       }
 
-      addJob(jobData);
-      addToast(jobToEdit ? 'Job description updated successfully' : 'New Job Description created', 'success');
+      await refreshData();
       onClose();
     } catch (err) {
       addToast('Failed to save job description', 'error');

@@ -568,35 +568,24 @@ const initialData = {
   ]
 };
 
-let inMemoryDB = null;
-
+// Initialize file if not existing
 function getDB() {
-  if (inMemoryDB) {
-    return inMemoryDB;
+  if (!fs.existsSync(DB_FILE)) {
+    saveDB(initialData);
+    return initialData;
   }
-
   try {
-    if (fs.existsSync(DB_FILE)) {
-      const data = fs.readFileSync(DB_FILE, 'utf8');
-      inMemoryDB = JSON.parse(data);
-      return inMemoryDB;
-    }
+    const data = fs.readFileSync(DB_FILE, 'utf8');
+    return JSON.parse(data);
   } catch (err) {
-    console.warn('DB file read warning, using initial data:', err.message);
+    console.error('Error reading DB, re-initializing:', err);
+    saveDB(initialData);
+    return initialData;
   }
-
-  inMemoryDB = JSON.parse(JSON.stringify(initialData));
-  saveDB(inMemoryDB);
-  return inMemoryDB;
 }
 
 function saveDB(data) {
-  inMemoryDB = data;
-  try {
-    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
-  } catch (err) {
-    console.warn('Vercel serverless read-only filesystem detected, saved to in-memory state:', err.message);
-  }
+  fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2), 'utf8');
 }
 
 module.exports = {
