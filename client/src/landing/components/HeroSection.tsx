@@ -16,6 +16,7 @@ import {
   Check
 } from 'lucide-react';
 import LightPillar from '../../components/LightPillar';
+import TextType from '../../components/TextType';
 
 interface Props {
   onAnalyze: () => void;
@@ -70,9 +71,26 @@ export const HeroSection: React.FC<Props> = ({
 
             {/* Main Headline */}
             <h1 className="text-4xl sm:text-6xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.1]">
-              Analyze Your Resume Like a{' '}
+              AI Resume Screening for{' '}
               <span className="bg-gradient-to-r from-emerald-500 via-teal-400 to-sky-500 bg-clip-text text-transparent">
-                Professional Recruiter
+                <TextType
+                  texts={[
+                    'Top Recruiters',
+                    'Job Seekers',
+                    'HR Teams',
+                    'ATS Systems',
+                    'Career Growth',
+                    'Dream Roles',
+                  ]}
+                  typingSpeed={70}
+                  deletingSpeed={35}
+                  pauseAfterType={2000}
+                  pauseAfterDelete={400}
+                  loop={true}
+                  showCursor={true}
+                  cursorChar="|"
+                  className="bg-gradient-to-r from-emerald-500 via-teal-400 to-sky-500 bg-clip-text text-transparent"
+                />
               </span>
             </h1>
 

@@ -81,19 +81,20 @@ body {
   left: 0;
 }
 
-/* ScrollVelocity Component – Emerald Gradient Text */
-.scroll-velocity-banner .scroller {
-  background: linear-gradient(90deg, #10b981, #0ea5e9, #6366f1, #10b981);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradientShift 6s linear infinite;
+/* TextType Component Styles (React Bits - TextType JS+CSS) */
+.text-type {
+  display: inline-block;
+  white-space: pre-wrap;
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% center; }
-  100% { background-position: 200% center; }
+.text-type__cursor {
+  margin-left: 0.25rem;
+  display: inline-block;
+  opacity: 1;
+}
+
+.text-type__cursor--hidden {
+  display: none;
 }
 
 .dark ::-webkit-scrollbar-thumb {

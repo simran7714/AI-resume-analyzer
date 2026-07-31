@@ -14,7 +14,6 @@ import { LandingFooter } from './components/Footer';
 import { AuthModal } from './components/AuthModal';
 import { DemoVideoModal } from './components/DemoVideoModal';
 import { ResumeUploader } from '../components/ResumeUploader';
-import ScrollVelocity from '../components/ScrollVelocity';
 import { X, Sparkles } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
@@ -44,24 +43,6 @@ export const LandingPage: React.FC<Props> = ({ onLaunchDashboard }) => {
         onTryDemo={onLaunchDashboard}
         onWatchVideo={() => setShowVideoModal(true)}
       />
-
-      {/* Scroll Velocity Marquee Banner */}
-      <div className="scroll-velocity-banner py-6 bg-slate-950 border-y border-slate-800/80 overflow-hidden">
-        <ScrollVelocity
-          texts={[
-            'AI Resume Screening',
-            'ATS Score Analysis',
-            'Skill Gap Detection',
-            'Gemini AI Powered',
-            'Candidate Ranking',
-            'Job Match Score',
-          ]}
-          velocity={4}
-          className="text-transparent bg-clip-text"
-          damping={40}
-          clampMax={4}
-        />
-      </div>
 
       {/* Trusted By Logos Bar */}
       <TrustedBy />
