@@ -38,12 +38,14 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
+import { PRESET_JOB_TEMPLATES } from '../utils/jobTemplates';
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (localStorage.getItem('app_theme') as 'light' | 'dark') || 'dark';
   });
   const [activeTab, setActiveTab] = useState<string>('landing');
-  const [jobs, setJobs] = useState<JobDescription[]>([]);
+  const [jobs, setJobs] = useState<JobDescription[]>(PRESET_JOB_TEMPLATES);
   const [selectedJobId, setSelectedJobId] = useState<string>('all');
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [loadingCandidates, setLoadingCandidates] = useState<boolean>(true);
@@ -88,16 +90,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     try {
       setLoadingCandidates(true);
       const [fetchedJobs, fetchedCandidates, fetchedAnalytics] = await Promise.all([
-        api.fetchJobs(),
-        api.fetchCandidates({ jobId: selectedJobId }),
-        api.fetchAnalytics()
+        api.fetchJobs().catch(() => []),
+        api.fetchCandidates({ jobId: selectedJobId }).catch(() => []),
+        api.fetchAnalytics().catch(() => null)
       ]);
-      setJobs(fetchedJobs);
+      
+      if (fetchedJobs && fetchedJobs.length > 0) {
+        setJobs(fetchedJobs);
+      } else {
+        setJobs(PRESET_JOB_TEMPLATES);
+      }
       setCandidates(fetchedCandidates);
       setAnalytics(fetchedAnalytics);
     } catch (err) {
       console.error('Error fetching data:', err);
-      addToast('Failed to sync with backend API', 'error');
+      setJobs(PRESET_JOB_TEMPLATES);
     } finally {
       setLoadingCandidates(false);
     }

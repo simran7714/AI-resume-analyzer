@@ -5,6 +5,9 @@ import { useAuth } from '../context/AuthContext';
 import * as api from '../utils/api';
 import confetti from 'canvas-confetti';
 
+import { PRESET_JOB_TEMPLATES } from '../utils/jobTemplates';
+import { ChevronDown } from 'lucide-react';
+
 interface Props {
   onSuccess?: (candidate: any) => void;
 }
@@ -13,12 +16,25 @@ export const ResumeUploader: React.FC<Props> = ({ onSuccess }) => {
   const { jobs, selectedJobId, addToast, refreshData, setSelectedCandidate } = useApp();
   const { geminiApiKey } = useAuth();
 
-  const [activeJobId, setActiveJobId] = useState<string>(selectedJobId !== 'all' ? selectedJobId : (jobs[0]?.id || 'job-1'));
+  const availableJobs = jobs && jobs.length > 0 ? jobs : PRESET_JOB_TEMPLATES;
+  const [activeJobId, setActiveJobId] = useState<string>(
+    selectedJobId !== 'all' && availableJobs.some(j => j.id === selectedJobId)
+      ? selectedJobId
+      : (availableJobs[0]?.id || 'tmpl-1')
+  );
+
   const [file, setFile] = useState<File | null>(null);
   const [pasteText, setPasteText] = useState<string>('');
   const [mode, setMode] = useState<'file' | 'text'>('file');
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [dragActive, setDragActive] = useState<boolean>(false);
+
+  // Sync activeJobId if availableJobs change
+  React.useEffect(() => {
+    if (!availableJobs.some(j => j.id === activeJobId)) {
+      setActiveJobId(availableJobs[0]?.id || 'tmpl-1');
+    }
+  }, [availableJobs, activeJobId]);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -141,20 +157,24 @@ export const ResumeUploader: React.FC<Props> = ({ onSuccess }) => {
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Job Selection */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-            Target Job Role for Screening *
+          <label className="block text-xs font-extrabold text-slate-700 dark:text-slate-200 mb-1.5 flex items-center justify-between">
+            <span>Target Job Role for Screening *</span>
+            <span className="text-[10px] text-emerald-500 font-bold">{availableJobs.length} Roles Available</span>
           </label>
-          <select
-            value={activeJobId}
-            onChange={(e) => setActiveJobId(e.target.value)}
-            className="w-full px-3 py-2 text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500"
-          >
-            {jobs.map((j) => (
-              <option key={j.id} value={j.id}>
-                {j.title} ({j.department}) — Min {j.minExperience} yrs exp required
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={activeJobId}
+              onChange={(e) => setActiveJobId(e.target.value)}
+              className="w-full pl-3.5 pr-10 py-3 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-bold focus:ring-2 focus:ring-emerald-500 appearance-none cursor-pointer shadow-xs"
+            >
+              {availableJobs.map((j) => (
+                <option key={j.id} value={j.id} className="bg-slate-900 text-white dark:bg-slate-900 dark:text-white p-2">
+                  {j.title} ({j.department}) — Min {j.minExperience} yrs exp required
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-4 h-4 text-slate-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+          </div>
         </div>
 
         {/* Dropzone */}

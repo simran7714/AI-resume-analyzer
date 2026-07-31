@@ -1,17 +1,6 @@
-export interface JobTemplate {
-  id: string;
-  title: string;
-  department: string;
-  location: string;
-  type: string;
-  salary: string;
-  minExperience: number;
-  minEducation: string;
-  requiredSkills: string[];
-  preferredSkills: string[];
-  requiredCertifications: string[];
-  description: string;
-}
+import { JobDescription } from '../types';
+
+export interface JobTemplate extends JobDescription {}
 
 export const PRESET_JOB_TEMPLATES: JobTemplate[] = [
   {
@@ -26,7 +15,9 @@ export const PRESET_JOB_TEMPLATES: JobTemplate[] = [
     requiredSkills: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'REST API', 'Git'],
     preferredSkills: ['GraphQL', 'AWS', 'Docker', 'Tailwind CSS', 'Redis', 'CI/CD'],
     requiredCertifications: ['AWS Certified Developer (Optional)', 'Meta Front-End Developer'],
-    description: 'We are seeking a high-performing Senior Full Stack Engineer to lead front-end architecture and backend services for our enterprise cloud platform.'
+    description: 'We are seeking a high-performing Senior Full Stack Engineer to lead front-end architecture and backend services for our enterprise cloud platform.',
+    status: 'Active',
+    createdAt: '2026-01-15T00:00:00.000Z'
   },
   {
     id: 'tmpl-2',
@@ -40,7 +31,9 @@ export const PRESET_JOB_TEMPLATES: JobTemplate[] = [
     requiredSkills: ['Python', 'PyTorch', 'SQL', 'Scikit-Learn', 'NLP', 'Data Visualization'],
     preferredSkills: ['TensorFlow', 'LLMs', 'MLOps', 'Docker', 'Spark', 'Kubernetes'],
     requiredCertifications: ['TensorFlow Developer Certificate'],
-    description: 'Lead state-of-the-art NLP and recommendation model development. Build scalable data pipelines and deploy LLM applications.'
+    description: 'Lead state-of-the-art NLP and recommendation model development. Build scalable data pipelines and deploy LLM applications.',
+    status: 'Active',
+    createdAt: '2026-01-15T00:00:00.000Z'
   },
   {
     id: 'tmpl-3',
@@ -54,7 +47,9 @@ export const PRESET_JOB_TEMPLATES: JobTemplate[] = [
     requiredSkills: ['AWS', 'Kubernetes', 'Docker', 'Terraform', 'CI/CD', 'Linux'],
     preferredSkills: ['Prometheus', 'Grafana', 'Python', 'Ansible', 'Security Compliance'],
     requiredCertifications: ['AWS Certified Solutions Architect Professional', 'CKA'],
-    description: 'Architect resilient multi-region infrastructure, automate deployment pipelines, and enforce zero-trust cloud security standards.'
+    description: 'Architect resilient multi-region infrastructure, automate deployment pipelines, and enforce zero-trust cloud security standards.',
+    status: 'Active',
+    createdAt: '2026-01-15T00:00:00.000Z'
   },
   {
     id: 'tmpl-4',
@@ -68,7 +63,9 @@ export const PRESET_JOB_TEMPLATES: JobTemplate[] = [
     requiredSkills: ['Figma', 'UI/UX Design', 'Design Systems', 'User Research', 'Wireframing', 'Prototyping'],
     preferredSkills: ['HTML/CSS', 'Framer', 'Usability Testing', 'Accessibility (WCAG)'],
     requiredCertifications: ['Google UX Design Professional Certificate'],
-    description: 'Craft beautiful, accessible, human-centric design systems and modern web application user interfaces.'
+    description: 'Craft beautiful, accessible, human-centric design systems and modern web application user interfaces.',
+    status: 'Active',
+    createdAt: '2026-01-15T00:00:00.000Z'
   },
   {
     id: 'tmpl-5',
@@ -82,7 +79,9 @@ export const PRESET_JOB_TEMPLATES: JobTemplate[] = [
     requiredSkills: ['SIEM', 'Incident Response', 'Network Security', 'Penetration Testing', 'Python', 'Linux'],
     preferredSkills: ['Wireshark', 'Splunk', 'Cloud Security', 'Compliance (SOC2/ISO27001)'],
     requiredCertifications: ['CISSP', 'CEH (Certified Ethical Hacker)'],
-    description: 'Lead threat detection, security incident response, threat hunting, and infrastructure hardening across multi-cloud environments.'
+    description: 'Lead threat detection, security incident response, threat hunting, and infrastructure hardening across multi-cloud environments.',
+    status: 'Active',
+    createdAt: '2026-01-15T00:00:00.000Z'
   },
   {
     id: 'tmpl-6',
@@ -96,6 +95,8 @@ export const PRESET_JOB_TEMPLATES: JobTemplate[] = [
     requiredSkills: ['Agile / Scrum', 'Product Strategy', 'Roadmapping', 'PRD Authoring', 'Data Analytics', 'SQL'],
     preferredSkills: ['A/B Testing', 'Jira', 'Figma', 'Market Research', 'User Interviews'],
     requiredCertifications: ['Certified Scrum Product Owner (CSPO)'],
-    description: 'Define product vision, author technical PRDs, collaborate with engineering leads, and manage sprint backlogs for core platform offerings.'
+    description: 'Define product vision, author technical PRDs, collaborate with engineering leads, and manage sprint backlogs for core platform offerings.',
+    status: 'Active',
+    createdAt: '2026-01-15T00:00:00.000Z'
   }
 ];
