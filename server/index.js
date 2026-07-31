@@ -374,7 +374,11 @@ app.get('/api/admin/audit-logs', (req, res) => {
   res.json({ success: true, logs: db.auditLogs });
 });
 
-// Start Server
-app.listen(PORT, () => {
-  console.log(`AI Resume Screening Backend Server running on http://localhost:${PORT}`);
-});
+// Start Server if run directly
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`AI Resume Screening Backend Server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
