@@ -1,190 +1,235 @@
+-- =====================================================================
+-- SUPABASE POSTGRESQL SCHEMA FOR AI RESUME ANALYZER
+-- =====================================================================
+-- Contains:
+-- 1. Custom extensions & utility functions
+-- 2. Tables for Profiles, Jobs, Candidates, Recruiter Notes, Interviews, & Audit Logs
+-- 3. Automatic profiles sync trigger linked with auth.users
+-- 4. Row-Level Security (RLS) policies & role-based helpers
+-- 5. Performance Indexes
+-- =====================================================================
+
+-- Enable necessary Extensions
+create extension if not exists "uuid-ossp";
+
 -- ==========================================
--- SUPABASE POSTGRESQL DATABASE SCHEMA
--- FOR AI RESUME SCREENING & ANALYZER SYSTEM
+-- 1. ROLE HELPER FUNCTIONS
 -- ==========================================
 
--- Enable UUID extension if not already enabled
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- ------------------------------------------
--- 1. HELPERS & ROLE CHECKS
--- ------------------------------------------
-
--- Helper function to extract user role from metadata stored in auth.users
-CREATE OR REPLACE FUNCTION auth.get_user_role()
-RETURNS text AS $$
-BEGIN
-  RETURN COALESCE(
-    (auth.jwt() -> 'user_metadata' ->> 'role')::text,
-    'candidate'
+-- Helper to check if the current user is a recruiter or admin
+create or replace function public.is_recruiter()
+returns boolean as $$
+begin
+  return exists (
+    select 1 from public.profiles
+    where id = auth.uid() and role in ('recruiter', 'admin')
   );
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+end;
+$$ language plpgsql security definer;
 
--- ------------------------------------------
--- 2. TABLES CREATION
--- ------------------------------------------
+-- ==========================================
+-- 2. SCHEMAS & TABLES
+-- ==========================================
 
--- Jobs Table
-CREATE TABLE public.jobs (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title TEXT NOT NULL,
-    department TEXT NOT NULL,
-    location TEXT NOT NULL,
-    type TEXT NOT NULL,
-    salary TEXT,
-    min_experience INTEGER DEFAULT 0,
-    min_education TEXT,
-    required_skills TEXT[] DEFAULT '{}'::TEXT[],
-    preferred_skills TEXT[] DEFAULT '{}'::TEXT[],
-    required_certifications TEXT[] DEFAULT '{}'::TEXT[],
-    description TEXT,
-    status TEXT DEFAULT 'Active',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+-- A. PROFILES TABLE (Linked with Supabase Auth users)
+create table if not exists public.profiles (
+  id uuid references auth.users on delete cascade primary key,
+  email text not null unique,
+  name text,
+  role text not null check (role in ('recruiter', 'candidate', 'admin')) default 'candidate',
+  avatar_url text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Candidates Table
-CREATE TABLE public.candidates (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    job_id UUID REFERENCES public.jobs(id) ON DELETE CASCADE,
-    job_title TEXT NOT NULL,
-    name TEXT NOT NULL,
-    email TEXT NOT NULL,
-    phone TEXT,
-    location TEXT,
-    linkedin TEXT,
-    github TEXT,
-    portfolio TEXT,
-    experience_years INTEGER DEFAULT 0,
-    education TEXT,
-    skills TEXT[] DEFAULT '{}'::TEXT[],
-    certifications TEXT[] DEFAULT '{}'::TEXT[],
-    raw_text TEXT,
-    scores JSONB NOT NULL,
-    recommendation JSONB NOT NULL,
-    voice_summary_text TEXT,
-    fraud_warning TEXT,
-    duplicate_detected BOOLEAN DEFAULT false,
-    recruiter_notes JSONB DEFAULT '[]'::JSONB,
-    status TEXT DEFAULT 'Manual Review', -- 'Approved' | 'Manual Review' | 'Rejected'
-    interview_scheduled JSONB DEFAULT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+-- B. JOB ROLES TABLE
+create table if not exists public.jobs (
+  id uuid primary key default gen_random_uuid(),
+  title text not null,
+  department text not null,
+  location text not null,
+  type text not null, -- e.g., Full-time, Hybrid, Remote, Contract
+  salary text,
+  min_experience integer not null default 0,
+  min_education text not null,
+  required_skills text[] not null default '{}',
+  preferred_skills text[] not null default '{}',
+  required_certifications text[] not null default '{}',
+  description text,
+  status text not null check (status in ('Active', 'Closed')) default 'Active',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Audit Logs Table
-CREATE TABLE public.audit_logs (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    action TEXT NOT NULL,
-    "user" TEXT DEFAULT 'Recruiter',
-    timestamp TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+-- C. CANDIDATES TABLE
+create table if not exists public.candidates (
+  id uuid primary key default gen_random_uuid(),
+  job_id uuid references public.jobs(id) on delete cascade not null,
+  user_id uuid references public.profiles(id) on delete set null, -- Optional linkage to registered user
+  job_title text not null,
+  name text not null,
+  email text not null,
+  phone text,
+  location text,
+  linkedin text,
+  github text,
+  portfolio text,
+  experience_years numeric not null default 0,
+  education text,
+  skills text[] not null default '{}',
+  certifications text[] not null default '{}',
+  raw_text text,
+  scores jsonb not null default '{}'::jsonb,
+  recommendation jsonb not null default '{}'::jsonb,
+  voice_summary_text text,
+  fraud_warning text,
+  duplicate_detected boolean not null default false,
+  status text not null check (status in ('Approved', 'Manual Review', 'Rejected', 'New')) default 'New',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- ------------------------------------------
--- 3. INDEXES FOR PERFORMANCE
--- ------------------------------------------
-CREATE INDEX idx_candidates_job_id ON public.candidates(job_id);
-CREATE INDEX idx_candidates_email ON public.candidates(email);
-CREATE INDEX idx_candidates_status ON public.candidates(status);
-CREATE INDEX idx_jobs_status ON public.jobs(status);
-CREATE INDEX idx_audit_logs_timestamp ON public.audit_logs(timestamp DESC);
+-- D. RECRUITER NOTES TABLE
+create table if not exists public.recruiter_notes (
+  id uuid primary key default gen_random_uuid(),
+  candidate_id uuid references public.candidates(id) on delete cascade not null,
+  author_name text not null,
+  author_id uuid references public.profiles(id) on delete set null,
+  text text not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
 
--- ------------------------------------------
--- 4. ROW LEVEL SECURITY (RLS) POLICIES
--- ------------------------------------------
+-- E. INTERVIEW SCHEDULES TABLE
+create table if not exists public.interview_schedules (
+  id uuid primary key default gen_random_uuid(),
+  candidate_id uuid references public.candidates(id) on delete cascade not null unique,
+  date date not null,
+  time time not null,
+  meet_url text,
+  status text not null check (status in ('Scheduled', 'Completed', 'Cancelled')) default 'Scheduled',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
 
--- Enable RLS on all tables
-ALTER TABLE public.jobs ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.candidates ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.audit_logs ENABLE ROW LEVEL SECURITY;
+-- F. AUDIT LOGS TABLE
+create table if not exists public.audit_logs (
+  id uuid primary key default gen_random_uuid(),
+  action text not null,
+  user_name text not null,
+  user_id uuid references public.profiles(id) on delete set null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
 
--- --- JOBS POLICIES ---
+-- ==========================================
+-- 3. PROFILES AUTOMATION (TRIGGERS)
+-- ==========================================
 
--- Recruiters and Admins have full access to Jobs
-CREATE POLICY "Recruiters and admins have full control over jobs" ON public.jobs
-    FOR ALL
-    TO authenticated
-    USING (auth.get_user_role() IN ('recruiter', 'admin'))
-    WITH CHECK (auth.get_user_role() IN ('recruiter', 'admin'));
+-- Trigger to automatically create a public profile entry when a user registers on Supabase Auth
+create or replace function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.profiles (id, email, name, role, avatar_url)
+  values (
+    new.id,
+    new.email,
+    coalesce(new.raw_user_meta_data->>'name', 'Anonymous Candidate'),
+    coalesce(new.raw_user_meta_data->>'role', 'candidate'),
+    coalesce(
+      new.raw_user_meta_data->>'avatar_url', 
+      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
+    )
+  );
+  return new;
+end;
+$$ language plpgsql security definer;
 
--- Anyone (including anonymous/candidates) can view active jobs
-CREATE POLICY "Anyone can view active jobs" ON public.jobs
-    FOR SELECT
-    TO public
-    USING (status = 'Active');
+-- Attach the trigger to auth.users table
+create or replace trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
 
+-- Auto-update timestamps function
+create or replace function public.update_modified_column()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
 
--- --- CANDIDATES POLICIES ---
+-- Attach auto-update triggers
+create or replace trigger update_profiles_modtime before update on public.profiles for each row execute procedure public.update_modified_column();
+create or replace trigger update_jobs_modtime before update on public.jobs for each row execute procedure public.update_modified_column();
+create or replace trigger update_candidates_modtime before update on public.candidates for each row execute procedure public.update_modified_column();
+create or replace trigger update_interview_schedules_modtime before update on public.interview_schedules for each row execute procedure public.update_modified_column();
 
--- Recruiters and Admins can view and manage all candidate profiles
-CREATE POLICY "Recruiters and admins have full control over candidates" ON public.candidates
-    FOR ALL
-    TO authenticated
-    USING (auth.get_user_role() IN ('recruiter', 'admin'))
-    WITH CHECK (auth.get_user_role() IN ('recruiter', 'admin'));
+-- ==========================================
+-- 4. ROW-LEVEL SECURITY (RLS) POLICIES
+-- ==========================================
 
--- Candidates can submit their applications (INSERT)
-CREATE POLICY "Anyone can apply (insert candidate)" ON public.candidates
-    FOR INSERT
-    TO public
-    WITH CHECK (true);
+-- Enable RLS across all tables
+alter table public.profiles enable row level security;
+alter table public.jobs enable row level security;
+alter table public.candidates enable row level security;
+alter table public.recruiter_notes enable row level security;
+alter table public.interview_schedules enable row level security;
+alter table public.audit_logs enable row level security;
 
--- Candidates can view their own application details by matching email
-CREATE POLICY "Candidates can view their own applications" ON public.candidates
-    FOR SELECT
-    TO authenticated
-    USING (auth.jwt() ->> 'email' = email);
+-- A. PROFILES POLICIES
+create policy "Allow profile read for owner or recruiter" on public.profiles
+  for select using (auth.uid() = id or public.is_recruiter());
 
+create policy "Allow profile updates for owners only" on public.profiles
+  for update using (auth.uid() = id);
 
--- --- AUDIT LOGS POLICIES ---
+-- B. JOBS POLICIES
+create policy "Allow active job reads for anyone" on public.jobs
+  for select using (status = 'Active' or public.is_recruiter());
 
--- Only recruiters and admins can see audit logs
-CREATE POLICY "Recruiters and admins can view audit logs" ON public.audit_logs
-    FOR SELECT
-    TO authenticated
-    USING (auth.get_user_role() IN ('recruiter', 'admin'));
+create policy "Allow full job management for recruiters only" on public.jobs
+  for all using (public.is_recruiter());
 
--- Backend server or client actions can append logs (INSERT)
-CREATE POLICY "System and authenticated users can insert audit logs" ON public.audit_logs
-    FOR INSERT
-    TO public
-    WITH CHECK (true);
+-- C. CANDIDATES POLICIES
+create policy "Allow recruiters full access to candidates" on public.candidates
+  for all using (public.is_recruiter());
 
+create policy "Allow candidate owner to read own application" on public.candidates
+  for select using (auth.uid() = user_id or email = (select email from public.profiles where id = auth.uid()));
 
--- ------------------------------------------
--- 5. STORAGE BUCKET CREATION & RLS
--- ------------------------------------------
+create policy "Allow candidate owner to submit own application" on public.candidates
+  for insert with check (auth.uid() = user_id or auth.uid() is not null);
 
--- Create the Storage Bucket for Resumes (Insert into storage.buckets table)
-INSERT INTO storage.buckets (id, name, public) 
-VALUES ('resumes', 'resumes', false)
-ON CONFLICT (id) DO NOTHING;
+-- D. RECRUITER NOTES POLICIES
+create policy "Allow note access for recruiters only" on public.recruiter_notes
+  for all using (public.is_recruiter());
 
--- Enable RLS on storage objects
-ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;
+-- E. INTERVIEW SCHEDULES POLICIES
+create policy "Allow recruiter full access to interviews" on public.interview_schedules
+  for all using (public.is_recruiter());
 
--- Storage Policies for 'resumes' Bucket:
+create policy "Allow candidate to view own interview" on public.interview_schedules
+  for select using (
+    exists (
+      select 1 from public.candidates c
+      where c.id = candidate_id and (c.user_id = auth.uid() or c.email = (select email from public.profiles where id = auth.uid()))
+    )
+  );
 
--- Policy: Allow anyone (applicants) to upload resumes to the storage bucket
-CREATE POLICY "Allow public uploads of resumes" ON storage.objects
-    FOR INSERT
-    TO public
-    WITH CHECK (bucket_id = 'resumes');
+-- F. AUDIT LOGS POLICIES
+create policy "Allow audit log access for recruiters only" on public.audit_logs
+  for select using (public.is_recruiter());
 
--- Policy: Allow recruiters and admins to download/view all resumes
-CREATE POLICY "Allow recruiters/admins to view resumes" ON storage.objects
-    FOR SELECT
-    TO authenticated
-    USING (bucket_id = 'resumes' AND auth.get_user_role() IN ('recruiter', 'admin'));
+create policy "Allow audit log creation for logged in users" on public.audit_logs
+  for insert with check (auth.uid() is not null);
 
--- Policy: Allow candidates to view/download their own uploaded resumes
-CREATE POLICY "Allow candidates to view own resume file" ON storage.objects
-    FOR SELECT
-    TO authenticated
-    USING (bucket_id = 'resumes' AND (owner = auth.uid()::text OR owner_id::text = auth.uid()::text));
+-- ==========================================
+-- 5. PERFORMANCE INDEXES
+-- ==========================================
 
--- Policy: Allow recruiters and admins to delete/update resumes
-CREATE POLICY "Allow recruiters/admins to delete resumes" ON storage.objects
-    FOR ALL
-    TO authenticated
-    USING (bucket_id = 'resumes' AND auth.get_user_role() IN ('recruiter', 'admin'))
-    WITH CHECK (bucket_id = 'resumes' AND auth.get_user_role() IN ('recruiter', 'admin'));
+create index if not exists idx_candidates_job_id on public.candidates(job_id);
+create index if not exists idx_candidates_user_id on public.candidates(user_id);
+create index if not exists idx_candidates_email on public.candidates(email);
+create index if not exists idx_candidates_status on public.candidates(status);
+create index if not exists idx_recruiter_notes_candidate_id on public.recruiter_notes(candidate_id);
+create index if not exists idx_interview_schedules_candidate_id on public.interview_schedules(candidate_id);
+create index if not exists idx_jobs_status on public.jobs(status);
