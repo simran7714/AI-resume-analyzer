@@ -60,7 +60,7 @@
       "id": "job-1785505713525",
       "title": "SOFTWAREENGINEERING",
       "department": "Engineering",
-      "location": "work from home ",
+      "location": "bangalore",
       "type": "Full-time",
       "salary": "$130,000 - $160,000",
       "minExperience": 0,
@@ -91,7 +91,7 @@
       "location": "New York, NY (Remote)",
       "type": "Full-time",
       "salary": "$165,000 - $200,000",
-      "minExperience": 4,
+      "minExperience": 0,
       "minEducation": "Master's or Ph.D. in CS, Data Science, or Math",
       "requiredSkills": [
         "Python",
@@ -123,7 +123,7 @@
       "location": "San Francisco, CA (Hybrid)",
       "type": "Full-time",
       "salary": "$140,000 - $175,000",
-      "minExperience": 5,
+      "minExperience": 0,
       "minEducation": "Bachelor's in Computer Science or related",
       "requiredSkills": [
         "React",
@@ -156,7 +156,7 @@
       "location": "New York, NY (Remote)",
       "type": "Full-time",
       "salary": "$160,000 - $195,000",
-      "minExperience": 4,
+      "minExperience": 0,
       "minEducation": "Master's or Ph.D. in CS, Data Science, or Math",
       "requiredSkills": [
         "Python",
@@ -188,7 +188,7 @@
       "location": "Austin, TX (On-site)",
       "type": "Full-time",
       "salary": "$150,000 - $185,000",
-      "minExperience": 6,
+      "minExperience": 3,
       "minEducation": "Bachelor's in IT, CS, or equivalent experience",
       "requiredSkills": [
         "AWS",
@@ -221,7 +221,7 @@
       "location": "Remote (US/Canada)",
       "type": "Full-time",
       "salary": "$130,000 - $160,000",
-      "minExperience": 4,
+      "minExperience": 0,
       "minEducation": "Bachelor's in Design, HCI, or equivalent",
       "requiredSkills": [
         "Figma",
@@ -247,6 +247,89 @@
     }
   ],
   "candidates": [
+    {
+      "id": "cand-1785556782720",
+      "jobId": "job-1785506190850",
+      "jobTitle": "NETWORKING ",
+      "name": "MEHAK HARLAPUR",
+      "email": "mehakharlapur12@gmail.com",
+      "phone": "6360537283",
+      "location": "San Francisco, CA",
+      "linkedin": "linkedin.com/in/mehakharlapur",
+      "github": "",
+      "portfolio": "gmail.com",
+      "experienceYears": 6,
+      "education": "Master's Degree",
+      "skills": [
+        "React",
+        "JavaScript",
+        "Node.js",
+        "MongoDB",
+        "Python",
+        "NLP",
+        "HTML",
+        "CSS",
+        "Go"
+      ],
+      "certifications": [],
+      "rawText": "\n\nMEHAK HARLAPUR\n(+91)6360537283 \nBachelor of Engineering                                                                                                                                                         2022-2026\nTontadarya College of Engineering                                                                                                                                       CGPA:8.72\nHigher Secondary (12th)                                                                                                                                                         2020-2022\nSanmarg Pre-University                                                                                                                                                            85%\nSecondary (10th)                                                                                                                                                                      2020\nShri CDO Jain Eng Med School                                                                                                                                                89%\nwww.linkedin.com/in/mehakharlapur\n As a Computer Science student and aspiring web developer, I have gained practical experience in building full-stack web\napplications using React, Node.js, and MongoDB. Proficient in HTML, CSS, and C programming, with a strong interest in software\nengineering and creating clean, user-focused designs. Actively seeking opportunities to contribute, learn, and deliver innovative\nsolutions to a dynamic development team.\nPROFESSIONAL SUMMARY\nmehakharlapur12@gmail.com \nEDUCATION\nPROJECTS\n 1. Revolutionary Learning with AI-Powered Voice Assistance using NLP\nDeveloped an AI-based voice assistant learning platform using HTML, CSS, and JavaScript Integrated speech recognition APIs to\nenable interactive, dynamic voice-interaction features for answering student queries and delivering educational content Engineered\nan intuitive, hands-free user interface to facilitate on-the-go, interactive learning currently writing a Research Paper on this work.\n2. Mental Health Analyzer using NLP\nDeveloped a deep learning model using BERT Transformer to analyze user text(sentences) and classify mental health states such as\nanxiety, depression,Suicidal,strees, or normal. The system preprocesses user statements, applies transformer-based sentiment\nanalysis Achiving 90% acccuracy.\n3. cricket Auction Website, Bidding Platform with Team\nDeveloped a cricket auction platform leveraging HTML, CSS, and JavaScript for the frontend, enabling the listing and bidding of\n[number] players. Implemented player selection, team creation, and a basic bidding system, enabling streamlined user work ows and\nsupporting [number] selections per session. Focused on delivering a smooth and interactive user interface for team-building.\nSimulated real-time bidding experience with simple logic and user-friendly design.\nSKILLS\nTechnical skills \nProgramming Languages : Python,C,C++,JavaTeamwork\nWebtechnologies : html , css , javascript\nDatabases : MYSQL , MongoDB\nConcepts : Problem Solving and Algorithm Design,Machine Learning & Deep Learning, Object Detection NLP \nSOFT SKILLS \nTeamwork \nProblem-Solving\nAdaptability\nWork Ethic Creativity\nActive Listening\nData Structures and Algorithms  |  Infosys Springboard ( May 2024 - Aug2024)\nPython| AI Academia (Apr 2025 - June 2025)\nArtificial Integillence |AI ACademia (Apr 2025-June 2025)\nFrontend Software Engineering Job Simulation |Forage (May 2025 - Oct202) \nCERTIFICATES",
+      "scores": {
+        "atsScore": 81,
+        "grammarScore": 92,
+        "formattingScore": 90,
+        "skillMatchPct": 70,
+        "experienceMatchPct": 100,
+        "educationMatchPct": 100,
+        "certificationMatchPct": 40,
+        "keywordMatchPct": 82,
+        "projectRelevancePct": 85,
+        "overallCandidateScore": 83
+      },
+      "recommendation": {
+        "decision": "APPROVE",
+        "title": "Recommended for Interview",
+        "color": "emerald",
+        "summary": "Candidate has reasonable potential (81 ATS score, 70% skill match) but requires manual review due to missing skills (minor skills).",
+        "rejectionReasons": [
+          "Missing mandatory certifications: AWS Certified Associate"
+        ],
+        "strengths": [
+          "Matches key skills: python, java, html, css",
+          "Possesses 6 years of experience (meets/exceeds 0 years minimum)",
+          "Meets required educational background (Master's Degree)"
+        ],
+        "weaknesses": [
+          "Missing preferred skills: AWS, Docker, HCL"
+        ],
+        "missingRequiredSkills": [],
+        "missingPreferredSkills": [
+          "AWS",
+          "Docker",
+          "HCL"
+        ],
+        "improvementSuggestions": [
+          "Quantify project accomplishments using metrics (e.g., \"Increased performance by 35%\")"
+        ]
+      },
+      "voiceSummaryText": "MEHAK HARLAPUR scored 81 ATS score with a 70% skill match for NETWORKING . Decision is Needs Manual Review.",
+      "fraudWarning": null,
+      "duplicateDetected": true,
+      "recruiterNotes": [
+        {
+          "author": "Sarah Jenkins",
+          "text": "Decision updated to APPROVE",
+          "createdAt": "2026-08-01T03:59:51.272Z"
+        }
+      ],
+      "status": "Approved",
+      "interviewScheduled": {
+        "date": "2026-08-05",
+        "time": "14:00",
+        "meetUrl": "https://meet.google.com/abc-defg-hij",
+        "status": "Scheduled"
+      },
+      "createdAt": "2026-08-01T03:59:42.720Z"
+    },
     {
       "id": "cand-1785516831746",
       "jobId": "job-1785506057599",
@@ -1520,6 +1603,66 @@
     }
   ],
   "auditLogs": [
+    {
+      "id": "log-1785556802240",
+      "action": "Scheduled Interview for Candidate: MEHAK HARLAPUR on 2026-08-05 14:00",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T04:00:02.240Z"
+    },
+    {
+      "id": "log-1785556796018",
+      "action": "Scheduled Interview for Candidate: MEHAK HARLAPUR on 2026-08-05 14:00",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:59:56.018Z"
+    },
+    {
+      "id": "log-1785556791275",
+      "action": "Updated Candidate Status: MEHAK HARLAPUR -> Approved",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:59:51.275Z"
+    },
+    {
+      "id": "log-1785556782725",
+      "action": "Uploaded & Screened Candidate Resume: MEHAK HARLAPUR (Needs Manual Review)",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:59:42.725Z"
+    },
+    {
+      "id": "log-1785556664182",
+      "action": "Updated Job Role: Lead Product Designer (UI/UX)",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:57:44.182Z"
+    },
+    {
+      "id": "log-1785556651344",
+      "action": "Updated Job Role: Senior DevOps & Cloud Architect",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:57:31.344Z"
+    },
+    {
+      "id": "log-1785556631657",
+      "action": "Updated Job Role: Data Science & ML Lead",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:57:11.658Z"
+    },
+    {
+      "id": "log-1785556605480",
+      "action": "Updated Job Role: Senior Full Stack Engineer",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:56:45.480Z"
+    },
+    {
+      "id": "log-1785556593224",
+      "action": "Updated Job Role: SOFTWAREENGINEERING",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:56:33.224Z"
+    },
+    {
+      "id": "log-1785556544284",
+      "action": "Updated Job Role: AI & Machine Learning Lead",
+      "user": "Recruiter",
+      "timestamp": "2026-08-01T03:55:44.284Z"
+    },
     {
       "id": "log-1785516849659",
       "action": "Scheduled Interview for Candidate: MEHAK HARLAPUR on 2026-08-05 14:00",
